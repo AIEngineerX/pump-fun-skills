@@ -137,7 +137,7 @@ Use `buildAcceptPaymentInstructions` to get all the instructions needed for a pa
 | `startTime`        | `bigint \| number \| string` | Unix timestamp — when the invoice becomes valid                                                      |
 | `endTime`          | `bigint \| number \| string` | Unix timestamp — when the invoice expires                                                            |
 | `tokenProgram`     | `PublicKey` (optional)       | Token program for the currency (defaults to SPL Token)                                               |
-| `computeUnitLimit` | `number` (optional)          | Compute unit budget (default `100_000`). Increase if transactions fail with compute exceeded.         |
+| `computeUnitLimit` | `number` (optional)          | Compute unit budget (default `100_000`). Increase if transactions fail with compute exceeded.        |
 | `computeUnitPrice` | `number` (optional)          | Priority fee in microlamports per CU. If provided, a `SetComputeUnitPrice` instruction is prepended. |
 
 ### Example
@@ -382,7 +382,7 @@ async function verifyPayment(params: {
     endTime: params.endTime,
   };
 
-  for (let attempt = 0; attempt < 5; attempt++) {
+  for (let attempt = 0; attempt < 10; attempt++) {
     const verified = await agent.validateInvoicePayment(invoiceParams);
     if (verified) return true;
     await new Promise((r) => setTimeout(r, 2000));
